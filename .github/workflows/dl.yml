@@ -1,0 +1,18 @@
+name: Download Waydroid Image
+on: workflow_dispatch
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Download from SourceForge
+        run: |
+          curl -L --fail --retry 5 --retry-delay 5 -o waydroid-system.zip \
+            "https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-20.0-20260927-VANILLA-waydroid_x86_64-system.zip/download"
+          ls -lh waydroid-system.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: waydroid-system
+          path: waydroid-system.zip
+          if-no-files-found: error
+          retention-days: 7
